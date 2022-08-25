@@ -13,6 +13,8 @@ echo " "
 
 sleep 10
 export KUBECONFIG=$(k3d kubeconfig write k3s-default)
+echo "KUBECONFIG=$(k3d kubeconfig write k3s-default)" >> ~/.bashrc
+source ~/.bashrc
 
 echo "-------------------------------------------------"
 echo ">> Applying Traefik Ingress"

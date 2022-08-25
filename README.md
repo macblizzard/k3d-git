@@ -1,5 +1,7 @@
 # setup docker
+```bash
 sudo apt update && sudo apt install docker.io docker-compose jq -y
+```
 
 # if using different user other than root
 sudo usermod -aG docker $USER    # logout and log back in for change to take affect

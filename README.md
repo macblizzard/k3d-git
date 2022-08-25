@@ -151,5 +151,5 @@ now update traefik with updated values file:
 ```bash
 helm upgrade --install traefik traefik/traefik --values /tmp/traefik-values.yaml -n kube-system
 ```
-### That's it, now try a manifest file from manifests directory, just make sure to change the host urls.
+That's it, now try a manifest file from manifests directory, just make sure to change the host urls.
 

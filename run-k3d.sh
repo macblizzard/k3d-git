@@ -1,9 +1,23 @@
-echo "Make sure to configure k3d.yaml file properly"
-k3d cluster create k3s-default --config k3d.yaml
+echo " "
+echo "-------------------------------------------------"
+echo ">> Make sure to configure k3d.yaml file properly"
+echo "-------------------------------------------------"
+echo " "
 
-echo "Exporting KUBECONFIG"
+k3d cluster create k3s-default --config k3d.yaml --wait
+
+echo "-------------------------------------------------"
+echo ">> Exporting KUBECONFIG"
+echo "-------------------------------------------------"
+echo " "
+
+sleep 10
 export KUBECONFIG=$(k3d kubeconfig write k3s-default)
 
-echo "Applying Traefik Ingress"
-kubectl apply -f manifests/traefik-ingress.yaml
+echo "-------------------------------------------------"
+echo ">> Applying Traefik Ingress"
+echo "-------------------------------------------------"
+echo " "
 
+sleep 20
+kubectl apply -f manifests/traefik-ingress.yaml

@@ -1,4 +1,9 @@
+echo " "
+echo "------------------"
 echo "Setting up Pebble"
+echo "------------------"
+echo " "
+
 helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update
 helm show values jupyterhub/pebble > /tmp/pebble-values.yaml
@@ -9,8 +14,12 @@ sed -i s/"enabled: true"/"enabled: false"/ /tmp/pebble-values.yaml
 
 helm install pebble jupyterhub/pebble --values /tmp/pebble-values.yaml -n kube-system
 
-
+echo " "
+echo "------------------"
 echo "Updating Traefik"
+echo "------------------"
+echo " "
+
 helm show values traefik/traefik > /tmp/traefik-values.yaml
 
 sed -i 's/volumes:/#volumes:/' /tmp/traefik-values.yaml
@@ -30,9 +39,13 @@ additionalArguments:
   - --certificatesresolvers.pebble.acme.caserver=https://pebble/dir
 env:
   - name: LEGO_CA_CERTIFICATES
-    value: "/certs/root-cert.pem" 
+    value: "/certs/root-cert.pem"
 EOF
 
 helm upgrade --install traefik traefik/traefik --values /tmp/traefik-values.yaml -n kube-system
 
+echo " "
+echo "----------------------------------------------------------------------------------"
 echo "Pebble Setup completed. Now try applying some manifests from manifests directory"
+echo "----------------------------------------------------------------------------------"
+echo " "

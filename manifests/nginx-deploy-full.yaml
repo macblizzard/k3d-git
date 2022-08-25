@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx-deploy-main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-main
+  template:
+    metadata:
+      labels:
+        app: nginx-main
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-deploy-main
+  labels:
+    app: nginx-deploy-main
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: nginx-main
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nginx-redirect-scheme
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+    port: "443"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-http
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`nginx.example.com`)
+      kind: Rule
+      middlewares:
+        - name: nginx-redirect-scheme      
+      services:
+        - name: nginx-deploy-main
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nginx.example.com`)
+      kind: Rule     
+      services:
+        - name: nginx-deploy-main
+          port: 80
+  tls:
+    certResolver: pebble
+#    certResolver: letsencrypt

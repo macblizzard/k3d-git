@@ -49,3 +49,4 @@ echo "--------------------------------------------------------------------------
 echo "Pebble Setup completed. Now try applying some manifests from manifests directory"
 echo "----------------------------------------------------------------------------------"
 echo " "
+

@@ -42,20 +42,6 @@ additionalArguments:
 env:
   - name: LEGO_CA_CERTIFICATES
     value: "/certs/root-cert.pem"
-
-# letsencrypt
-additionalArguments:
-  - --api.insecure
-  - --accesslog
-  - --entrypoints.web.Address=:8000
-  - --entrypoints.websecure.Address=:8443
-  - --providers.kubernetescrd
-  - --certificatesresolvers.letsencrypt.acme.tlschallenge
-  - --certificatesresolvers.letsencrypt.acme.email=foo@you.com
-  - --certificatesresolvers.letyencrypt.acme.storage=acme.json
-  # Please note that this is the staging Let's Encrypt server.
-  # Once you get things working, you should remove that whole line altogether.
-  - --certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
 EOF
 
 helm upgrade --install traefik traefik/traefik --values /tmp/traefik-values.yaml -n kube-system

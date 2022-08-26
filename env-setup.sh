@@ -52,5 +52,6 @@ echo "Adding aliases to .bashrc"
 echo "---------------------------"
 echo " "
 
-echo "alias k='kubectl'\nalias h='helm'" >> ~/.bashrc
+echo "alias k='kubectl'" >> ~/.bashrc
+echo "alias h='helm'" >> ~/.bashrc
 source ~/.bashrc

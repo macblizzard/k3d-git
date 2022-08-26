@@ -20,6 +20,8 @@ echo "Updating Traefik"
 echo "------------------"
 echo " "
 
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
 helm show values traefik/traefik > /tmp/traefik-values.yaml
 
 sed -i 's/volumes:/#volumes:/' /tmp/traefik-values.yaml

@@ -1,0 +1,46 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: wp-redirect-scheme
+  namespace: default
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+    port: "443"
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordpress-http
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`wp.example.com`)
+      kind: Rule
+      middlewares:
+        - name: wp-redirect-scheme
+      services:
+        - name: wordpress
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordpress-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`wp.example.com`)
+      kind: Rule
+      services:
+        - name: wordpress
+          port: 80
+  tls:
+    certResolver: pebble
+#    certResolver: letsencrypt

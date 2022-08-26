@@ -11,7 +11,7 @@ ports:
 - port: 443:443
   nodeFilters:
   - loadbalancer
-#options:
-#  k3s:
-#    extraServerArgs:
-#    - --no-deploy=traefik
+options:
+  k3s:
+    extraServerArgs:
+    - --no-deploy=traefik

@@ -16,10 +16,3 @@ export KUBECONFIG=$(k3d kubeconfig write k3s-default)
 echo "KUBECONFIG=$(k3d kubeconfig write k3s-default)" >> ~/.bashrc
 source ~/.bashrc
 
-echo "-------------------------------------------------"
-echo ">> Applying Traefik Ingress"
-echo "-------------------------------------------------"
-echo " "
-
-sleep 20
-kubectl apply -f manifests/traefik-ingress.yaml

@@ -4,7 +4,7 @@ echo "Setting up Docker"
 echo "-------------------"
 echo " "
 
-sudo apt update && sudo apt install docker.io docker-compose jq net-tools -y
+sudo apt update && sudo apt install docker.io docker-compose jq net-tools apache2-utils -y
 
 echo " "
 echo "-------------------------------------"

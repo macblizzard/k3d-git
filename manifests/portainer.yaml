@@ -1,64 +1,39 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/name: portainer
   name: portainer
   namespace: portainer
 spec:
-  type: ClusterIP
-  ports:
-  - port: 9000
-    protocol: TCP
-    targetPort: 9000
-    name: http
   selector:
     app.kubernetes.io/name: portainer
-  sessionAffinity: None
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: portainer-redirect-scheme
-  namespace: portainer
-spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
-    port: "443"
-
+  ports:
+  - name: http
+    targetPort: 9000
+    port: 9000
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: portainer-http
+  name: portainer
   namespace: portainer
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`portainer.example.com`)
-      kind: Rule
-      middlewares:
-        - name: portainer-redirect-scheme
-      services:
-        - name: portainer
-          port: 9000
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: portainer-https
-  namespace: portainer
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`portainer.example.com`)
+    - match: Host(`www.portainer.local.example.com`)
       kind: Rule
       services:
         - name: portainer
           port: 9000
+    - match: Host(`portainer.local.example.com`)
+      kind: Rule
+      services:
+        - name: portainer
+          port: 9000
+      middlewares:
+        - name: default-headers
   tls:
-    certResolver: pebble
-#    certResolver: letsencrypt
+    secretName: local-example-com-tls

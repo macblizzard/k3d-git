@@ -57,7 +57,7 @@ spec:
     - match: Host(`nginx.example.com`)
       kind: Rule
       middlewares:
-        - name: nginx-redirect-scheme      
+        - name: nginx-redirect-scheme
       services:
         - name: nginx-deploy-main
           port: 80
@@ -72,7 +72,7 @@ spec:
     - websecure
   routes:
     - match: Host(`nginx.example.com`)
-      kind: Rule     
+      kind: Rule
       services:
         - name: nginx-deploy-main
           port: 80
